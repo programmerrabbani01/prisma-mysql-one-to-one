@@ -1,0 +1,54 @@
+// kon database er sathe connect hobo
+
+datasource db {
+    provider = "mysql"
+    url = env("DATABASE_URL")
+}
+
+// kon client er maddhome kaj korbo
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// create model
+
+model User {
+    id          Int @id @default(autoincrement())
+    name        String
+    email       String @unique
+    age         Int
+    skill       String?
+    gender      String?
+    status      Boolean @default(true)
+    trash       Boolean @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Student {
+    id          Int @id @default(autoincrement())
+    name        String
+    roll        String @unique
+    age         Int
+    gender      String
+    location    String
+    books       Books?
+    status      Boolean @default(true)
+    trash       Boolean @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Books {
+    id          Int @id @default(autoincrement())
+    name        String
+    author      String
+    type        String
+    student     Student @relation(fields: [studentId], references: [id])
+    studentId   Int @unique
+    status      Boolean @default(true)
+    trash       Boolean @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
